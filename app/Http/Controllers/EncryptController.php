@@ -12,9 +12,10 @@ class EncryptController extends Controller
     private $key = 'w5wd0rdHR9yLlM6wt2vteuiniQBqE70n';
 
 
-    private $FILE_ENCRYPTION_BLOCKS = 10000;
+    private $FILE_ENCRYPTION_BLOCKS = 10000; // number of blocks
 
     public function encryptFile(Request $request){
+        // validate the user inputs data
         $roles=array(
             'encrypt_file' => 'required',
             'saving_path' => 'required|string',
@@ -22,16 +23,21 @@ class EncryptController extends Controller
 
         );
         $request->validate($roles);
+
+        // prepare the encrypted file to write in it
         $encrypted_file=$request->file_name.'.'.$request->encrypt_file->extension().'.encrypted';
+        // get file name to store the unencrypted file
         $fileName = time().'.'.$request->encrypt_file->extension();
+        // store unencrypted file
         $request->encrypt_file->move(public_path('/'.$request->saving_path.'/'), $fileName);
+        //perform the encryption process
+        // store the encrypted and unencrypted files in the same path
         $this->doEncryption($request->saving_path.'/'.$fileName,$request->saving_path.'/'.$encrypted_file);
+        // get encrypted full file path
         $file= public_path().'/'.$request->saving_path.'/'. $encrypted_file;
+
         \Session::flash('flash_file_encryption', $file);
         return redirect()->route('home');
-
-
-
     }
 
 

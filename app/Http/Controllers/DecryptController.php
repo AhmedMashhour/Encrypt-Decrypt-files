@@ -22,12 +22,16 @@ class DecryptController extends Controller
 
         );
         $request->validate($roles);
+        // prepare the unencrypted file to write in it
         $encrypted_file=$request->file_name.'.txt';
        // dd($encrypted_file);
         $fileName = time().'.'.$request->encrypt_file->extension();
+        // store file
         $request->encrypt_file->move(public_path('/'.$request->saving_path.'/'), $fileName);
+        // do Decryption Process
         $this->doDecryption($request->saving_path.'/'.$fileName,$request->saving_path.'/'.$encrypted_file);
         $file= public_path().'/'.$request->saving_path.'/'. $encrypted_file;
+        // get file path
         \Session::flash('flash_file_decryption', $file);
         return redirect()->route('home');
 

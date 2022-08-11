@@ -139,16 +139,16 @@
                         <input type="text" class="form-control" name="saving_path" placeholder="File Location: example/name of folder " aria-describedby="basic-addon1">
 
                     </div>
-                    <div class="form-group form-check" id="file_details" style="display: none">
+                    <div class="form-group form-check" id="file_details_decryption" style="display: none">
                         <p>
-                            <span> file name = <span class="file_name"></span></span>
+                            <span> file name = <span class="file_name_decryption"></span></span>
 
                         </p>
                         <p>
-                            <span> file size = <span class="file_size"></span></span>
+                            <span> file size = <span class="file_size_decryption"></span></span>
                         </p>
                         <p>
-                            <span> file extension = <span class="file_extension"></span></span>
+                            <span> file extension = <span class="file_extension_decryption"></span></span>
                             <input type="hidden" name="extension">
                         </p>
                     </div>
@@ -157,8 +157,8 @@
                             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="encrypt_file" id="encrypt-file" aria-describedby="inputGroupFileAddon01">
-                            <label class="custom-file-label" for="encrypt-file">Choose file</label>
+                            <input type="file" class="custom-file-input" name="encrypt_file" id="encrypted-file" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="encrypted-file">Choose file</label>
                         </div>
                     </div>
 
@@ -179,6 +179,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 
 <script>
+    $(document).ready(function(){
+
+        $('#encrypted-file').on('change',function (){
+            $('#file_details_decryption').show();
+            $('.file_size_decryption').html(this.files[0].size)
+            $('.file_name_decryption').html($('#encrypted-file').val().split('\\')[2])
+            $('.file_extension_decryption').html($('#encrypted-file').val().split('.').pop())
+        })
+
+    });
     $(document).ready(function(){
 
         $('#encrypt-file').on('change',function (){
